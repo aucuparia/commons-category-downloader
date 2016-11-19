@@ -28,5 +28,8 @@ done
 
 # Grab all the files
 for url in "${urls[@]}"; do
-  wget $(echo $url | sed -e 's/^"//' -e 's/"$//')
+  # First sed command removes the quotation marks, second escapes quotation
+  # marks that are part of the filename
+  wget --restrict-file-names=nocontrol \
+  "$(echo $url | sed -e 's/^"//' -e 's/"$//' | sed 's/"/\\"/')"
 done
