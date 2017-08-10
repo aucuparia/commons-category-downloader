@@ -1,4 +1,4 @@
-# commons-category-downloader
+# Commons Category Downloader
 
 Quick and dirty shell script to fetch all images from a given category on Wikimedia Commons.
 
