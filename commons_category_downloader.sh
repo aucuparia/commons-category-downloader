@@ -2,12 +2,10 @@
 
 # Set category and convert underscores and whitespaces to plusses
 category="$1"
-category=$(echo "$category" | tr ' _' '+')
 
 # Set base query
 basequery="https://commons.wikimedia.org/w/api.php?action=query&format=json\
-&prop=imageinfo&generator=categorymembers&iiprop=url\
-&gcmtitle=Category%3A+$category&gcmtype=file&gcmlimit=500"
+&prop=imageinfo&generator=categorymembers&iiprop=url&gcmtype=file&gcmlimit=500"
 
 # Set initial query
 apiquery="$basequery"
@@ -18,7 +16,7 @@ trap 'rm -f "${mktemp:?}"' EXIT
 
 # Query API and collect the URLs
 while :; do
-  response=$(curl --silent "$apiquery")
+  response=$(curl --silent --data-urlencode "gcmtitle=Category:$category" "$apiquery")
 
   # Extract image URLs
   echo "$response" | jq -rc ".query.pages[].imageinfo[].url" >> "$mktemp"
