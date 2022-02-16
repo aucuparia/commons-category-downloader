@@ -16,7 +16,7 @@ trap 'rm -f "${mktemp:?}"' EXIT
 
 # Query API and collect the URLs
 while :; do
-  response=$(curl --silent --data-urlencode "gcmtitle=Category:$category" "$apiquery")
+  response=$(curl -A "commons-category-downloader/1 (https://github.com/aucuparia/commons-category-downloader)" --silent --data-urlencode "gcmtitle=Category:$category" "$apiquery")
 
   # Extract image URLs
   echo "$response" | jq -rc ".query.pages[].imageinfo[].url" >> "$mktemp"
@@ -31,4 +31,4 @@ while :; do
 done
 
 # Grab all the files
-wget --restrict-file-names=nocontrol -c -i "$mktemp"
+wget -U "commons-category-downloader/1 (https://github.com/aucuparia/commons-category-downloader)" --restrict-file-names=nocontrol -c -i "$mktemp"
